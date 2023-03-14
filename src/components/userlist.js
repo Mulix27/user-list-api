@@ -1,6 +1,6 @@
-
 import React, { Component } from "react";
 import axios from "axios";
+import md5 from "md5";
 import "../style.css";
 
 class UserList extends Component {
@@ -15,6 +15,11 @@ class UserList extends Component {
     });
   }
 
+  getGravatarUrl = (email) => {
+    const hash = md5(email.trim().toLowerCase());
+    return `https://www.gravatar.com/avatar/${hash}?d=identicon`;
+  };
+
   render() {
     return (
       <div>
@@ -23,6 +28,7 @@ class UserList extends Component {
           {this.state.users.map((user) => (
             <div className="user-card" key={user.id}>
               <h2>{user.name}</h2>
+              <img src={this.getGravatarUrl(user.email)} alt="avatar" />
               <p>{user.email}</p>
               <p>{user.address.city}</p>
               <p className="company">{user.company.name}</p>
@@ -35,3 +41,4 @@ class UserList extends Component {
 }
 
 export default UserList;
+
